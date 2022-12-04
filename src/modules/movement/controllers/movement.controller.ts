@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { MovementService } from '../services/movement.service';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
 import { CreateMovementDto } from '../storage/dto/create-movement.dto';
 import { MovementDto } from '../storage/dto/movement.dto';
 
@@ -7,12 +6,12 @@ import { MovementDto } from '../storage/dto/movement.dto';
 export class MovementController {
 
     @Get()
-    getAllMovements(): MovementDto[] {
-        throw new Error('Method to be implemented')
+    getAllMovements(): MovementDto[] | HttpException {
+        throw new HttpException('Method to be implemented', HttpStatus.NOT_IMPLEMENTED)
     }
 
     @Post()
     createMovement(@Body() newMovement: CreateMovementDto): MovementDto {
-        throw new Error('Method to be implemented')
+        throw new HttpException('Method to be implemented', HttpStatus.NOT_IMPLEMENTED)
     }
 }
