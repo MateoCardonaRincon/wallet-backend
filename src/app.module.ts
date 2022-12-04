@@ -8,8 +8,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     MainModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: PostgresqlConfig })
-  ],
-  controllers: [],
-  providers: [],
+  ]
 })
 export class AppModule { }

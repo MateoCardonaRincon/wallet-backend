@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
-import { AccountDto } from '../storage/dto/account.dto';
-import { CreateAccountDto } from '../storage/dto/create-account.dto';
-import { UpdateAccountDto } from '../storage/dto/update-account.dto';
+import { AccountDto } from '../storage/dto/validations/account.dto';
+import { CreateAccountDto } from '../storage/dto/validations/create-account.dto';
+import { UpdateAccountDto } from '../storage/dto/validations/update-account.dto';
 
 @Controller('account')
 export class AccountController {
