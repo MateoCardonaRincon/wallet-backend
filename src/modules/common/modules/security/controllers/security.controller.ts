@@ -5,7 +5,6 @@ import { TokenDto } from '../storage/dto/validations/token.dto';
 
 @Controller('security')
 export class SecurityController {
-
     @Post()
     signUp(@Body() newClient: CreateClientDto): ClientDto {
         throw new HttpException('Method to be implemented', HttpStatus.NOT_IMPLEMENTED)

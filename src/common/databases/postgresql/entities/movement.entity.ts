@@ -1,16 +1,17 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { AccountEntity } from "./account.entity";
+import { v4 as uuidv4 } from 'uuid';
 
 @Index(
   "movement_acc_id_income_acc_id_outcome_Idx",
-  ["accIdIncome", "accIdOutcome"],
+  ["accountIdIncome", "accountIdOutcome"],
   {}
 )
 @Index("pkmovement", ["id"], { unique: true })
 @Entity("movement", { schema: "public" })
 export class MovementEntity {
   @Column("uuid", { primary: true, name: "mov_id" })
-  id: string;
+  id: string = uuidv4();
 
   @Column("uuid", { name: "acc_id_income" })
   accountIdIncome: string;

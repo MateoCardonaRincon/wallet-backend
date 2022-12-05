@@ -8,13 +8,14 @@ import {
 } from "typeorm";
 import { ClientEntity } from "./client.entity";
 import { MovementEntity } from "./movement.entity";
+import { v4 as uuidv4 } from 'uuid';
 
 @Index("pkaccount", ["id"], { unique: true })
-@Index("account_cli_id_Idx", ["cliId"], { unique: true })
+@Index("account_cli_id_Idx", ["clientId"], { unique: true })
 @Entity("account", { schema: "public" })
 export class AccountEntity {
   @Column("uuid", { primary: true, name: "acc_id" })
-  id: string;
+  id: string = uuidv4();
 
   @Column("uuid", { name: "cli_id" })
   clientId: string;

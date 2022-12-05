@@ -1,14 +1,15 @@
 import { Column, Entity, Index, OneToOne } from "typeorm";
 import { AccountEntity } from "./account.entity";
 import { AppEntity } from "./app.entity";
+import { v4 as uuidv4 } from 'uuid';
 
-@Index("client_cli_email_Idx", ["cliEmail"], { unique: true })
+@Index("client_cli_email_Idx", ["email"], { unique: true })
 @Index("pkclient", ["id"], { unique: true })
-@Index("client_cli_phone_Idx", ["cliPhone"], { unique: true })
+@Index("client_cli_phone_Idx", ["phone"], { unique: true })
 @Entity("client", { schema: "public" })
 export class ClientEntity {
   @Column("uuid", { primary: true, name: "cli_id" })
-  id: string;
+  id: string = uuidv4();
 
   @Column("character varying", { name: "cli_full_name", length: 500 })
   fullName: string;
