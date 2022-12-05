@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
-import { CreateMovementDto } from '../storage/dto/create-movement.dto';
-import { MovementDto } from '../storage/dto/movement.dto';
+import { CreateMovementDto } from '../storage/dto/validations/create-movement.dto';
+import { MovementDto } from '../storage/dto/validations/movement.dto';
 
 @Controller('movement')
 export class MovementController {

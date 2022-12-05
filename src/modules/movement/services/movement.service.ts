@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMovementDto } from '../storage/dto/create-movement.dto';
-import { MovementDto } from '../storage/dto/movement.dto';
+import { CreateMovementDto } from '../storage/dto/validations/create-movement.dto';
+import { MovementDto } from '../storage/dto/validations/movement.dto';
 
 @Injectable()
 export class MovementService {

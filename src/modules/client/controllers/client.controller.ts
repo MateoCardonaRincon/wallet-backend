@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
-import { ClientDto } from '../storage/dto/client.dto';
-import { CreateClientDto } from '../storage/dto/create-client.dto';
+import { ClientDto } from '../storage/dto/validations/client.dto';
+import { CreateClientDto } from '../storage/dto/validations/create-client.dto';
 
 @Controller('client')
 export class ClientController {

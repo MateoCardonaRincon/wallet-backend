@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ClientDto } from 'src/modules/client/storage/dto/client.dto';
-import { CreateClientDto } from 'src/modules/client/storage/dto/create-client.dto';
-import { TokenDto } from '../storage/dto/token.dto';
+import { ClientDto } from 'src/modules/client/storage/dto/validations/client.dto';
+import { CreateClientDto } from 'src/modules/client/storage/dto/validations/create-client.dto';
+import { TokenDto } from '../storage/dto/validations/token.dto';
 
 @Injectable()
 export class SecurityService {
