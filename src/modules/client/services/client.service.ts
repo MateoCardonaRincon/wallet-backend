@@ -9,7 +9,7 @@ import { CreateClientDto } from '../storage/dto/validations/create-client.dto';
 export class ClientService {
     constructor(
         @InjectRepository(ClientEntity)
-        private readonly clientRepository: Repository<ClientDto>) { }
+        private readonly clientRepository: Repository<ClientEntity>) { }
 
     async getClientById(uuid: string): Promise<ClientDto> {
         try {
@@ -20,15 +20,26 @@ export class ClientService {
     }
 
     async createClient(newClient: CreateClientDto): Promise<ClientDto> {
+        try {
+            const createdClient = this.clientRepository.create(newClient)
 
-        const createdClient = this.clientRepository.create(newClient)
-
-        const client = await this.clientRepository.save(createdClient)
-
-        return client
+            return await this.clientRepository.save(createdClient)
+        } catch (error) {
+            throw new HttpException('Something went wrong creating a new client', HttpStatus.BAD_REQUEST)
+        }
     }
 
-    deleteClientById(uuid: string): ClientDto {
-        throw new HttpException('Method to be implemented', HttpStatus.NOT_IMPLEMENTED)
+    async deleteClientById(uuid: string): Promise<ClientDto> {
+        try {
+            const clientToDelete = await this.clientRepository.findOneByOrFail({ id: uuid })
+
+            clientToDelete.deletedAt = new Date();
+
+            const deletedClient = await this.clientRepository.save(clientToDelete)
+
+            return deletedClient
+        } catch (error) {
+            throw new HttpException('Something went wrong creating a new client', HttpStatus.BAD_REQUEST)
+        }
     }
 }

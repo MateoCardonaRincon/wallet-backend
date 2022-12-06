@@ -26,7 +26,7 @@ export class ClientController {
     }
 
     @Delete(':uuid')
-    deleteClientById(@Param('uuid') uuid: string): ClientDto {
+    deleteClientById(@Param('uuid') uuid: string): Promise<ClientDto> {
         return this.clientService.deleteClientById(uuid)
     }
 }
