@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, ValidationPipe } from '@nestjs/common';
-import { ClientEntity } from 'src/common/databases/postgresql/entities/client.entity';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseUUIDPipe, Post, ValidationPipe } from '@nestjs/common';
 import { ClientService } from '../services/client.service';
 import { ClientDto } from '../storage/dto/validations/client.dto';
 import { CreateClientDto } from '../storage/dto/validations/create-client.dto';
@@ -10,23 +9,17 @@ export class ClientController {
     constructor(private readonly clientService: ClientService) { }
 
     @Get(':uuid')
-    getClientById(@Param('uuid') uuid: string): Promise<ClientDto> {
+    getClientById(@Param('uuid', ParseUUIDPipe) uuid: string): Promise<ClientDto> {
         return this.clientService.getClientById(uuid)
     }
 
     @Post()
-    createClient(@Body(
-        new ValidationPipe({
-            transform: true,
-            whitelist: true,
-            forbidNonWhitelisted: true,
-            errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
-        }),) newClient: CreateClientDto): Promise<ClientDto> {
+    createClient(@Body() newClient: CreateClientDto): Promise<ClientDto> {
         return this.clientService.createClient(newClient)
     }
 
     @Delete(':uuid')
-    deleteClientById(@Param('uuid') uuid: string): Promise<ClientDto> {
+    deleteClientById(@Param('uuid', ParseUUIDPipe) uuid: string): Promise<ClientDto> {
         return this.clientService.deleteClientById(uuid)
     }
 }

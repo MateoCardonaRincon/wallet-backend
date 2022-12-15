@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseUUIDPipe, Post, Put, ValidationPipe } from '@nestjs/common';
 import { ApplicationService } from '../services/application.service';
 import { ApplicationDto } from '../storage/dto/validations/application.dto';
 import { CreateApplicationDto } from '../storage/dto/validations/create-application.dto';
@@ -10,22 +10,25 @@ export class ApplicationController {
     constructor(private readonly applicationService: ApplicationService) { }
 
     @Get(':uuid')
-    getApplication(@Param('uuid') uuid: string): ApplicationDto {
+    getApplication(@Param('uuid', ParseUUIDPipe) uuid: string): ApplicationDto {
         return this.applicationService.getApplication(uuid);
     }
 
     @Post()
-    createApplication(@Body() newApp: CreateApplicationDto): ApplicationDto {
+    createApplication(
+        @Body() newApp: CreateApplicationDto): ApplicationDto {
         return this.applicationService.createApplication(newApp);
     }
 
     @Put(':uuid')
-    updateApplication(@Param('uuid') uuid: string, @Body() app: UpdateApplicationDto): ApplicationDto {
+    updateApplication(
+        @Param('uuid', ParseUUIDPipe) uuid: string,
+        @Body() app: UpdateApplicationDto): ApplicationDto {
         return this.applicationService.updateApplication(uuid, app);
     }
 
     @Delete(':uuid')
-    deleteApplication(@Param('uuid') uuid: string): ApplicationDto {
+    deleteApplication(@Param('uuid', ParseUUIDPipe) uuid: string): ApplicationDto {
         return this.applicationService.deleteApplication(uuid);
     }
 }

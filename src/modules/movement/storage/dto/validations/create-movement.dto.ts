@@ -12,7 +12,7 @@ export class CreateMovementDto implements CreateMovementInterface {
 
     @IsString({ message: "'reason' must be a string" })
     @IsNotEmpty({ message: "'reason' can't be empty" })
-    @Length(7, 500, {
+    @Length(0, 500, {
         message: "'reason' must have a minimum length of $constraint1 and a maximum length of $constraint2"
     })
     reason: string;
