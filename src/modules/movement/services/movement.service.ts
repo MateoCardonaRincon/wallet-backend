@@ -12,8 +12,17 @@ export class MovementService {
         private readonly movementRepository: Repository<MovementEntity>
     ) { }
 
-    getAllMovements(): Promise<MovementDto[]> {
-        return this.movementRepository.find();
+    async getAllMovementsByRelatedAccountId(uuid: string): Promise<MovementDto[]> {
+        try {
+            return await this.movementRepository.find({
+                where: [
+                    { accountIdIncome: uuid },
+                    { accountIdOutcome: uuid }]
+            });
+        } catch (error) {
+            throw new HttpException(`There's not an account associated to a client with id : ${uuid} not found`, HttpStatus.NOT_FOUND)
+        }
+        // return this.movementRepository.find();
     }
 
     async createMovement(newMovement: CreateMovementDto): Promise<MovementDto> {

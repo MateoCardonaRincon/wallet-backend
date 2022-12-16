@@ -1,40 +1,57 @@
-import { Body, Controller, HttpException, HttpStatus, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, ValidationPipe } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { ClientDto } from 'src/modules/client/storage/dto/validations/client.dto';
 import { CreateClientDto } from 'src/modules/client/storage/dto/validations/create-client.dto';
 import { TokenDto } from '../storage/dto/validations/token.dto';
+import { ClientEntity } from 'src/common/databases/postgresql/entities/client.entity';
+import { Repository } from 'typeorm';
+import { SecurityService } from '../services/security.service';
+import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
+import { JwtValidationGuard } from '../guards/jwt-validation.guard';
 
 @Controller('security')
 export class SecurityController {
-    @Post()
-    signUp(@Body(
-        new ValidationPipe({
-            transform: true,
-            whitelist: true,
-            forbidNonWhitelisted: true,
-            errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
-        }),) newClient: CreateClientDto): ClientDto {
-        throw new HttpException('Method to be implemented', HttpStatus.NOT_IMPLEMENTED)
-    }
+
+
+    constructor(private readonly securityService: SecurityService) { }
+
+    // @Post()
+    // signUp(@Body(
+    //     new ValidationPipe({
+    //         transform: true,
+    //         whitelist: true,
+    //         forbidNonWhitelisted: true,
+    //         errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
+    //     }),) newClient: CreateClientDto): ClientDto {
+    //     throw new HttpException('Method to be implemented', HttpStatus.NOT_IMPLEMENTED)
+    // }
+
+    // @Post()
+    // login(@Body(
+    //     new ValidationPipe({
+    //         transform: true,
+    //         whitelist: true,
+    //         forbidNonWhitelisted: true,
+    //         errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
+    //     }),) token: TokenDto): ClientDto {
+    //     throw new HttpException('Method to be implemented', HttpStatus.NOT_IMPLEMENTED)
+    // }
 
     @Post()
-    login(@Body(
+    @UseGuards(JwtValidationGuard)
+    async authenticateClient(@Body(
         new ValidationPipe({
             transform: true,
             whitelist: true,
             forbidNonWhitelisted: true,
             errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
-        }),) token: TokenDto): ClientDto {
-        throw new HttpException('Method to be implemented', HttpStatus.NOT_IMPLEMENTED)
+        }),) client: CreateClientDto): Promise<ClientDto> {
+
+        return await this.securityService.authenticateClient(client)
     }
 
-    @Post()
-    logout(@Body(
-        new ValidationPipe({
-            transform: true,
-            whitelist: true,
-            forbidNonWhitelisted: true,
-            errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
-        }),) token: TokenDto): TokenDto {
-        throw new HttpException('Method to be implemented', HttpStatus.NOT_IMPLEMENTED)
+    @Get(':email')
+    getClientByEmail(@Param('email') email: string): Promise<ClientDto> {
+        return this.securityService.getClientByEmail(email)
     }
 }

@@ -10,13 +10,13 @@ export class AccountController {
     constructor(private readonly accountService: AccountService) { }
 
     @Get(':uuid')
-    getAccount(@Param('uuid', ParseUUIDPipe) uuid: string): AccountDto {
-        return this.accountService.getAccount(uuid)
+    async getAccountByClientId(@Param('uuid', ParseUUIDPipe) uuid: string): Promise<AccountDto> {
+        return await this.accountService.getAccountByClientId(uuid)
     }
 
     @Post()
-    createAccount(@Body() newAccount: CreateAccountDto): Promise<AccountDto> {
-        return this.accountService.createAccount(newAccount)
+    async createAccount(@Body() newAccount: CreateAccountDto): Promise<AccountDto> {
+        return await this.accountService.createAccount(newAccount)
     }
 
     @Put(':uuid')

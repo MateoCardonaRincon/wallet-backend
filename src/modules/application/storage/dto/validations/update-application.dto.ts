@@ -8,5 +8,5 @@ export class UpdateApplicationDto implements UpdateApplicationInterface {
 
     @IsDate({ message: "The field 'updatedAt' must have Date format" })
     @IsOptional()
-    updatedAt?: Date | null;
+    updatedAt?: Date | null = new Date();
 }

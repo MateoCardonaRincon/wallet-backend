@@ -8,17 +8,6 @@ import { MovementDto } from '../storage/dto/validations/movement.dto';
 export class ReturnMovementTypeInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-
-    console.log('ReturnMovementTypeInterceptor');
-
-    const ctx = context.switchToHttp();
-
-    const req = ctx.getRequest()
-
-    // const headers = req.getHeaders
-
-    console.log('TOKEN: ', req.headers.authorization)
-
     return next.handle()
       .pipe(
         map((movementList: MovementDto[]) => {

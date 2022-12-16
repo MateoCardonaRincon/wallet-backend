@@ -25,8 +25,6 @@ export class ClientService {
 
             return await this.clientRepository.save(createdClient)
         } catch (error) {
-            console.log('error keys: ', Object.keys(error))
-            console.log('error.code', error.code)
             throw new HttpException('Something went wrong creating a new client', HttpStatus.BAD_REQUEST)
         }
     }

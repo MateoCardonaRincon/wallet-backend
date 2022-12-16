@@ -15,7 +15,7 @@ export class AppEntity {
   @Column("character varying", {
     name: "app_color",
     length: 30,
-    default: () => "'default'",
+    default: () => "'#1055c4'",
   })
   color: string;
 

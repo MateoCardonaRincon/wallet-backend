@@ -17,10 +17,18 @@ export class ClientEntity {
   @Column("character varying", { name: "cli_email", length: 500 })
   email: string;
 
-  @Column("character varying", { name: "cli_phone", length: 500 })
+  @Column("character varying", {
+    name: "cli_phone",
+    length: 500,
+    default: () => ''
+  })
   phone: string;
 
-  @Column("character varying", { name: "cli_photo", length: 500 })
+  @Column("character varying", {
+    name: "cli_photo",
+    length: 500,
+    default: () => 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png'
+  })
   photo: string;
 
   @Column("integer", { name: "cli_state", default: () => "1" })

@@ -1,4 +1,5 @@
-import { Body, Controller, Get, HttpStatus, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, ParseUUIDPipe, Post, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { JwtValidationGuard } from 'src/modules/common/modules/security/guards/jwt-validation.guard';
 import { ReturnMovementTypeInterceptor } from '../interceptors/return-movement-type.interceptor';
 import { MovementService } from '../services/movement.service';
 import { CreateMovementDto } from '../storage/dto/validations/create-movement.dto';
@@ -9,10 +10,11 @@ export class MovementController {
 
     constructor(private readonly movementService: MovementService) { }
 
-    @Get()
+    @Get(':uuid')
     @UseInterceptors(ReturnMovementTypeInterceptor)
-    getAllMovements(): Promise<MovementDto[]> {
-        return this.movementService.getAllMovements();
+    @UseGuards(JwtValidationGuard)
+    async getAllMovementsByRelatedAccountId(@Param('uuid', ParseUUIDPipe) uuid: string): Promise<MovementDto[]> {
+        return await this.movementService.getAllMovementsByRelatedAccountId(uuid);
     }
 
     @Post()

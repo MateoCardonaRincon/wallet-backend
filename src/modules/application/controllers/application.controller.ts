@@ -10,20 +10,32 @@ export class ApplicationController {
     constructor(private readonly applicationService: ApplicationService) { }
 
     @Get(':uuid')
-    getApplication(@Param('uuid', ParseUUIDPipe) uuid: string): ApplicationDto {
-        return this.applicationService.getApplication(uuid);
+    async getApplicationByClientId(@Param('uuid', ParseUUIDPipe) uuid: string): Promise<ApplicationDto> {
+        return await this.applicationService.getApplicationByClientId(uuid);
     }
 
     @Post()
-    createApplication(
-        @Body() newApp: CreateApplicationDto): ApplicationDto {
-        return this.applicationService.createApplication(newApp);
+    async createApplication(
+        @Body(
+            new ValidationPipe({
+                transform: true,
+                whitelist: true,
+                forbidNonWhitelisted: true,
+                errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
+            }),) newApp: CreateApplicationDto): Promise<ApplicationDto> {
+        return await this.applicationService.createApplication(newApp);
     }
 
     @Put(':uuid')
     updateApplication(
         @Param('uuid', ParseUUIDPipe) uuid: string,
-        @Body() app: UpdateApplicationDto): ApplicationDto {
+        @Body(
+            new ValidationPipe({
+                transform: true,
+                whitelist: true,
+                forbidNonWhitelisted: true,
+                errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
+            }),) app: UpdateApplicationDto): Promise<ApplicationDto> {
         return this.applicationService.updateApplication(uuid, app);
     }
 

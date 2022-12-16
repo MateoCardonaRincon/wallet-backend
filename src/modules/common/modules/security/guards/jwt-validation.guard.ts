@@ -9,13 +9,16 @@ export class JwtValidationGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     try {
-      const token = context
+      const rawAuthorization = context
         .switchToHttp()
         .getRequest()
         .get('authorization')
-        .replace('Bearer ', '');
-      console.log('token', token)
-      return this.verifyToken(token);
+
+      if (rawAuthorization) {
+        const token = rawAuthorization.replace('Bearer ', '');
+        return this.verifyToken(token);
+      }
+      return false
     } catch (err) {
       console.log('err', err)
       return false
@@ -25,7 +28,7 @@ export class JwtValidationGuard implements CanActivate {
   private async verifyToken(token: string): Promise<boolean> {
     const client = jwksClient({
       jwksUri:
-        'https://dev-0gvplcuj1gtcwray.us.auth0.com/.well-known/jwks.json',
+        'https://dev-r2cf5pxcf4v0ri5t.us.auth0.com/.well-known/jwks.json',
     });
 
     const options: VerifyOptions = { algorithms: ['RS256'] };
@@ -40,10 +43,14 @@ export class JwtValidationGuard implements CanActivate {
     return new Promise((resolve) => {
       verify(token, getKey, options, (err: VerifyErrors, decoded: any) => {
 
-        console.log('decoded', decoded);
-        console.log('err', err);
+        // console.log('decoded', decoded);
+        // console.log('err', err);
 
-        if (err) resolve(false);
+        if (err) {
+          console.log('TOKEN ERROR on guard')
+          resolve(false)
+        };
+
         resolve(true);
       });
     });

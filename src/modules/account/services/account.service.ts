@@ -13,8 +13,12 @@ export class AccountService {
         private readonly accountRepository: Repository<AccountEntity>
     ) { }
 
-    getAccount(uuid: string): AccountDto {
-        throw new HttpException('Method to be implemented', HttpStatus.NOT_IMPLEMENTED)
+    async getAccountByClientId(uuid: string): Promise<AccountDto> {
+        try {
+            return await this.accountRepository.findOneByOrFail({ clientId: uuid });
+        } catch (error) {
+            throw new HttpException(`There's not an account associated to a client with id : ${uuid} not found`, HttpStatus.NOT_FOUND)
+        }
     }
 
     async createAccount(newAccount: CreateAccountDto): Promise<AccountDto> {
